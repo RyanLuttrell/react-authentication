@@ -20,7 +20,10 @@ export class Provider extends Component {
     const value = {
       authenticatedUser: authenticatedUser,
       data: this.data,
-      actions: {signIn: this.signIn}
+      actions: {
+        signIn: this.signIn, 
+        signOut: this.signOut
+      }
     }
     return (
       <Context.Provider value={value}>
@@ -43,7 +46,7 @@ export class Provider extends Component {
   }
 
   signOut = () => {
-
+    this.setState({authenticatedUser: null})
   }
 }
 
