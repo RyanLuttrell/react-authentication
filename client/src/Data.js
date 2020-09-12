@@ -1,7 +1,7 @@
 import config from './config';
 
 export default class Data {
-  api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
+  api(path, method = 'GET', body = null, requiresAuth = false, credentials = null){
     const url = config.apiBaseUrl + path;
   
     const options = {
@@ -17,13 +17,13 @@ export default class Data {
     if (requiresAuth) {
       const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
 
-      options.header['Authorization'] = `Basic ${encodedCredentials}`;
+      options.headers['Authorization'] = `Basic ${encodedCredentials}`;
     }
     return fetch(url, options);
   }
 
-  async getUser(username, password) {
-    const response = await this.api(`/users`, 'GET', null, true, {username, password});
+  async getUser(username, password) { // add new parameters
+    const response = await this.api(`/users`, 'GET', null, true, { username, password });
     if (response.status === 200) {
       return response.json().then(data => data);
     }

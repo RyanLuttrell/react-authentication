@@ -5,15 +5,22 @@ const Context = React.createContext();
 
 export class Provider extends Component {
 
+  state = {
+    authenticatedUser: null
+  };
+
   constructor() {
     super();
     this.data = new Data();
   }
 
   render() {
+    const {authenticatedUser} = this.state;
 
     const value = {
-      data: this.data
+      authenticatedUser: authenticatedUser,
+      data: this.data,
+      actions: {signIn: this.signIn}
     }
     return (
       <Context.Provider value={value}>
@@ -23,8 +30,16 @@ export class Provider extends Component {
   }
 
   
-  signIn = async () => {
-
+  signIn = async (username, password) => {
+    const user = await this.data.getUser(username, password);
+    if (user !== null) {
+      this.setState(() => {
+        return {
+          authenticatedUser: user
+        }
+      })
+    }
+    return user
   }
 
   signOut = () => {
